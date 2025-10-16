@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INFOTRIX'25</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>INFOTRIX'25</h1>
+    <h3>VSB College of Engineering Technical Campus</h3>
+    <p>Department of Information Technology — Coimbatore</p>
+    <button class="btn-main" onclick="scrollToEvents()">Register Now</button>
+    <div class="stats">
+      <div><span>6</span><p>Technical Events</p></div>
+      <div><span>3</span><p>Non-Technical Events</p></div>
+      <!-- <div><span>500+</span><p>Participants</p></div> -->
+      <div><span>2025</span><p>Year</p></div>
+    </div>
+  </section>
+
+  <!-- Event Section -->
+  <section class="events" id="events">
+    <h2>Explore <span>Events</span></h2>
+    <div class="tabs">
+      <button class="tab active" data-cat="All">All</button>
+      <button class="tab" data-cat="Technical">Technical</button>
+      <button class="tab" data-cat="Non-Technical">Non-Technical</button>
+    </div>
+    <div class="grid" id="eventsGrid"></div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal">
+      <h3>Register for <span id="selectedEvent">—</span></h3>
+      <form id="regForm">
+        <label>Team Name</label>
+        <input id="teamName" type="text" placeholder="Team name (optional)" />
+
+        <label>Members</label>
+        <input id="m1" type="text" placeholder="Member 1 (required)" required />
+        <input id="m2" type="text" placeholder="Member 2 (optional)" />
+        <input id="m3" type="text" placeholder="Member 3 (optional)" />
+
+        <p class="amount">Amount: <strong id="amountText">₹200</strong></p>
+
+        <label>Email</label>
+        <input id="email" type="email" placeholder="leader@example.com" required />
+
+        <label>Phone</label>
+        <input id="phone" type="tel" placeholder="+91xxxxxxxxxx" required />
+
+        <div class="actions">
+          <button type="button" id="cancelBtn" class="btn-outline">Cancel</button>
+          <button type="submit" id="payBtn" class="btn-main">Pay & Register</button>
+        </div>
+        <p id="modalStatus" class="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
