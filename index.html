@@ -9,14 +9,13 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-
   <!-- Header -->
   <header class="navbar">
     <div class="logo">
       <img src="images/57133818_831366503865981_3657725485078544384_n.png" alt="VSB Logo" />
       <div class="title">
         <h2>VSB College of Engineering Technical Campus</h2>
-        <p>(Autonomous Institution) — Coimbatore</p>
+        <p><center>(Autonomous Institution) — Coimbatore</center></p>
       </div>
     </div>
   </header>
@@ -28,13 +27,19 @@
     <button class="btn-main" onclick="scrollToEvents()">Access Event Protocols</button>
   </section>
 
-  <!-- Events Section -->
+  <!-- Countdown -->
+  <section class="deadline">
+    <h3>⏳ Registration closes on <span>3 November 2025 — 10:00 PM</span></h3>
+    <p id="countdown"></p>
+  </section>
+
+  <!-- Events -->
   <section class="events" id="events">
     <h2>Our <span>Event Protocols</span></h2>
     <div class="grid" id="eventsGrid"></div>
   </section>
 
-  <!-- Registration Modal -->
+  <!-- Modal -->
   <div class="modal-backdrop hidden" id="modalBackdrop">
     <div class="modal">
       <h3>Register for <span id="selectedEvent">—</span></h3>
@@ -59,7 +64,6 @@
           <button type="button" id="cancelBtn" class="btn-outline">Cancel</button>
           <button type="submit" id="payBtn" class="btn-main">Pay & Register</button>
         </div>
-        <p id="modalStatus" class="status"></p>
       </form>
     </div>
   </div>
