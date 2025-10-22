@@ -40,17 +40,19 @@ const modal = document.getElementById("modalBackdrop");
 const selectedEvent = document.getElementById("selectedEvent");
 const amountText = document.getElementById("amountText");
 let currentEvent = "";
-let currentAmount = 200;
 
 grid.addEventListener("click", e => {
   if (e.target.classList.contains("btn-outline")) {
     currentEvent = e.target.dataset.event;
     selectedEvent.textContent = currentEvent;
+
     const form = document.getElementById("regForm");
     form.reset();
 
+    // Handle esports: 4 members only
     const m3Field = document.getElementById("m3");
     let m4Field = document.getElementById("m4");
+
     if (currentEvent === "E-Sports Arena" && !m4Field) {
       m4Field = document.createElement("input");
       m4Field.id = "m4";
@@ -62,14 +64,40 @@ grid.addEventListener("click", e => {
       m4Field.remove();
     }
 
+    updateAmount();
     modal.classList.remove("hidden");
-    amountText.textContent = "₹200";
   }
 });
 
 document.getElementById("cancelBtn").addEventListener("click", () => {
   modal.classList.add("hidden");
 });
+
+// === Dynamic Amount Update ===
+const memberInputs = ["m1", "m2", "m3"];
+memberInputs.forEach(id => {
+  document.getElementById(id).addEventListener("input", updateAmount);
+});
+
+function updateAmount() {
+  let count = 0;
+  if (currentEvent === "E-Sports Arena") {
+    amountText.textContent = "₹200";
+    return;
+  }
+
+  memberInputs.forEach(id => {
+    const value = document.getElementById(id).value.trim();
+    if (value) count++;
+  });
+
+  let amount = 0;
+  if (count === 1) amount = 200;
+  else if (count === 2) amount = 400;
+  else if (count >= 3) amount = 500;
+
+  amountText.textContent = `₹${amount}`;
+}
 
 // === Form Submission ===
 document.getElementById("regForm").addEventListener("submit", e => {
@@ -106,4 +134,5 @@ document.getElementById("regForm").addEventListener("submit", e => {
 
   window.open(formURL, "_blank");
   modal.classList.add("hidden");
-});
+}
+);
