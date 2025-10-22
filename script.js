@@ -1,4 +1,4 @@
-// === Event Data ===
+// === Event List ===
 const events = [
   { name: "Tech Quiz", desc: "Dive into futuristic computing innovations.", img: "images/techquiz.jpeg" },
   { name: "AI Neural Network Workshop", desc: "Hands-on AI learning for next-gen engineers.", img: "images/wsh.jpeg" },
@@ -10,6 +10,11 @@ const events = [
   { name: "Code Contest", desc: "Compete to solve coding challenges efficiently.", img: "images/codecontest.jpeg" },
   { name: "MeMe Time", desc: "Show your creativity through memes.", img: "images/meme.jpeg" },
 ];
+
+// === Scroll to Events ===
+function scrollToEvents() {
+  document.getElementById("events").scrollIntoView({ behavior: "smooth" });
+}
 
 // === Render Events ===
 const grid = document.getElementById("eventsGrid");
@@ -24,8 +29,7 @@ function renderEvents() {
         <h3>${e.name}</h3>
         <p>${e.desc}</p>
         <button class="btn-outline" data-event="${e.name}">Register Now</button>
-      </div>
-    `;
+      </div>`;
     grid.appendChild(div);
   });
 }
@@ -38,129 +42,68 @@ const amountText = document.getElementById("amountText");
 let currentEvent = "";
 let currentAmount = 200;
 
-// === Update Amount ===
-function updateAmount() {
-  const m1 = document.getElementById("m1").value.trim();
-  const m2 = document.getElementById("m2").value.trim();
-  const m3 = document.getElementById("m3").value.trim();
-  const m4 = document.getElementById("m4") ? document.getElementById("m4").value.trim() : "";
-  const count = [m1, m2, m3, m4].filter(Boolean).length || 1; // ensure at least 1 member counted
-
-  if (currentEvent === "E-Sports Arena") {
-    currentAmount = 200;
-    amountText.textContent = `₹${currentAmount} (Team Fee)`;
-  } else {
-    if (count === 1) currentAmount = 200;
-    else if (count === 2) currentAmount = 400;
-    else currentAmount = 500;
-    amountText.textContent = `₹${currentAmount}`;
-  }
-}
-
-// === Add 4th Member Field for E-Sports ===
-const m3Field = document.getElementById("m3");
-function ensureFourthMemberField() {
-  let m4Field = document.getElementById("m4");
-
-  if (currentEvent === "E-Sports Arena") {
-    if (!m4Field) {
-      m4Field = document.createElement("input");
-      m4Field.id = "m4";
-      m4Field.type = "text";
-      m4Field.placeholder = "Member 4 (optional)";
-      m4Field.className = "member-input";
-      m3Field.insertAdjacentElement("afterend", m4Field);
-      m4Field.addEventListener("input", updateAmount);
-    }
-  } else if (m4Field) {
-    m4Field.remove();
-  }
-}
-
-// === Open Modal ===
 grid.addEventListener("click", e => {
   if (e.target.classList.contains("btn-outline")) {
     currentEvent = e.target.dataset.event;
     selectedEvent.textContent = currentEvent;
-
-    // Reset form and default price
     const form = document.getElementById("regForm");
     form.reset();
-    const m4Field = document.getElementById("m4");
-    if (m4Field) m4Field.remove();
-    currentAmount = 200;
-    amountText.textContent = `₹200`;
 
-    ensureFourthMemberField();
+    const m3Field = document.getElementById("m3");
+    let m4Field = document.getElementById("m4");
+    if (currentEvent === "E-Sports Arena" && !m4Field) {
+      m4Field = document.createElement("input");
+      m4Field.id = "m4";
+      m4Field.type = "text";
+      m4Field.placeholder = "Member 4 (required)";
+      m4Field.required = true;
+      m3Field.insertAdjacentElement("afterend", m4Field);
+    } else if (m4Field && currentEvent !== "E-Sports Arena") {
+      m4Field.remove();
+    }
+
     modal.classList.remove("hidden");
+    amountText.textContent = "₹200";
   }
 });
 
-// === Close Modal ===
 document.getElementById("cancelBtn").addEventListener("click", () => {
   modal.classList.add("hidden");
-  document.getElementById("regForm").reset();
-  const m4Field = document.getElementById("m4");
-  if (m4Field) m4Field.remove();
 });
 
-// === Live Update for Member Inputs ===
-["m1", "m2", "m3"].forEach(id => document.getElementById(id).addEventListener("input", updateAmount));
-
-// === Razorpay Integration ===
-document.getElementById("regForm").addEventListener("submit", async e => {
+// === Form Submission ===
+document.getElementById("regForm").addEventListener("submit", e => {
   e.preventDefault();
 
-  const teamName = document.getElementById("teamName").value;
+  const team = document.getElementById("teamName").value.trim();
   const m1 = document.getElementById("m1").value.trim();
   const m2 = document.getElementById("m2").value.trim();
   const m3 = document.getElementById("m3").value.trim();
   const m4 = document.getElementById("m4") ? document.getElementById("m4").value.trim() : "";
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
-  const modalStatus = document.getElementById("modalStatus");
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
 
-  if (!m1) return alert("Please enter at least one member.");
+  let formURL = "";
 
-  const options = {
-    key: "YOUR_RAZORPAY_KEY_ID",
-    amount: currentAmount * 100,
-    currency: "INR",
-    name: "INFOTRIX'25 Registration",
-    description: currentEvent,
-    handler: async function (response) {
-      modalStatus.textContent = "Payment successful, saving registration...";
-      try {
-        await fetch("YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL", {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            event: currentEvent,
-            teamName,
-            m1,
-            m2,
-            m3,
-            m4,
-            email,
-            phone,
-            payment_id: response.razorpay_payment_id,
-            amount: currentAmount,
-          }),
-        });
-        modalStatus.textContent = "Registration successful!";
-      } catch {
-        modalStatus.textContent = "Error saving registration.";
-      }
-    },
-    prefill: { email, contact: phone },
-    theme: { color: "#9d4edd" },
-  };
-  const rzp = new Razorpay(options);
-  rzp.open();
+  if (currentEvent === "E-Sports Arena") {
+    formURL = `https://docs.google.com/forms/d/e/1FAIpQLSd-KpkoOD41Dp3uxzoy5t10LTZea1CzEAqTElAyjMHVqNR2zA/viewform?usp=pp_url` +
+      `&entry.2005620554=${encodeURIComponent(team)}` +
+      `&entry.405610466=${encodeURIComponent(m1)}` +
+      `&entry.1929489613=${encodeURIComponent(m2)}` +
+      `&entry.1006516152=${encodeURIComponent(m3)}` +
+      `&entry.1345636521=${encodeURIComponent(m4)}` +
+      `&entry.1045781291=${encodeURIComponent(phone)}`;
+  } else {
+    formURL = `https://docs.google.com/forms/d/e/1FAIpQLSep1aw_VaaAXdW9D_fzY3q6KO4ePXGnABdPhtZkmiAlAiiFzA/viewform?usp=pp_url` +
+      `&entry.2092238618=${encodeURIComponent(team)}` +
+      `&entry.303522656=${encodeURIComponent(m1)}` +
+      `&entry.1621350981=${encodeURIComponent(m2)}` +
+      `&entry.1113186145=${encodeURIComponent(m3)}` +
+      `&entry.1556369182=${encodeURIComponent(email)}` +
+      `&entry.1269411362=${encodeURIComponent(phone)}` +
+      `&entry.1587391020=${encodeURIComponent(currentEvent)}`;
+  }
+
+  window.open(formURL, "_blank");
+  modal.classList.add("hidden");
 });
-
-// === Smooth Scroll ===
-function scrollToEvents() {
-  document.getElementById("events").scrollIntoView({ behavior: "smooth" });
-}
