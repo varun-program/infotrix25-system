@@ -49,7 +49,7 @@ grid.addEventListener("click", e => {
     const form = document.getElementById("regForm");
     form.reset();
 
-    // Handle esports: 4 members only
+    // Handle E-Sports: add 4th member field if needed
     const m3Field = document.getElementById("m3");
     let m4Field = document.getElementById("m4");
 
@@ -69,6 +69,7 @@ grid.addEventListener("click", e => {
   }
 });
 
+// === Cancel Button ===
 document.getElementById("cancelBtn").addEventListener("click", () => {
   modal.classList.add("hidden");
 });
@@ -80,12 +81,12 @@ memberInputs.forEach(id => {
 });
 
 function updateAmount() {
-  let count = 0;
   if (currentEvent === "E-Sports Arena") {
     amountText.textContent = "₹200";
     return;
   }
 
+  let count = 0;
   memberInputs.forEach(id => {
     const value = document.getElementById(id).value.trim();
     if (value) count++;
@@ -114,25 +115,28 @@ document.getElementById("regForm").addEventListener("submit", e => {
   let formURL = "";
 
   if (currentEvent === "E-Sports Arena") {
-    formURL = `https://docs.google.com/forms/d/e/1FAIpQLSd-KpkoOD41Dp3uxzoy5t10LTZea1CzEAqTElAyjMHVqNR2zA/viewform?usp=pp_url` +
+    // 🎮 Esports form
+    formURL =
+      `https://docs.google.com/forms/d/e/1FAIpQLSd-KpkoOD41Dp3uxzoy5t10LTZea1CzEAqTElAyjMHVqNR2zA/viewform?usp=pp_url` +
       `&entry.2005620554=${encodeURIComponent(team)}` +
       `&entry.405610466=${encodeURIComponent(m1)}` +
       `&entry.1929489613=${encodeURIComponent(m2)}` +
       `&entry.1006516152=${encodeURIComponent(m3)}` +
       `&entry.1345636521=${encodeURIComponent(m4)}` +
-      `&entry.1045781291=${encodeURIComponent(phone)}`;
+      `&entry.1221796909=${encodeURIComponent(phone)}`;
   } else {
-    formURL = `https://docs.google.com/forms/d/e/1FAIpQLSep1aw_VaaAXdW9D_fzY3q6KO4ePXGnABdPhtZkmiAlAiiFzA/viewform?usp=pp_url` +
+    // 🧠 Normal events form
+    formURL =
+      `https://docs.google.com/forms/d/e/1FAIpQLSep1aw_VaaAXdW9D_fzY3q6KO4ePXGnABdPhtZkmiAlAiiFzA/viewform?usp=pp_url` +
       `&entry.2092238618=${encodeURIComponent(team)}` +
       `&entry.303522656=${encodeURIComponent(m1)}` +
       `&entry.1621350981=${encodeURIComponent(m2)}` +
       `&entry.1113186145=${encodeURIComponent(m3)}` +
       `&entry.1556369182=${encodeURIComponent(email)}` +
-      `&entry.1269411362=${encodeURIComponent(phone)}` +
+      `&entry.1371084117=${encodeURIComponent(phone)}` +
       `&entry.1587391020=${encodeURIComponent(currentEvent)}`;
   }
 
   window.open(formURL, "_blank");
   modal.classList.add("hidden");
-}
-);
+});
