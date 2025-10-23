@@ -6,7 +6,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== Header ===== */
+
 .navbar {
   display: flex;
   justify-content: center;
@@ -77,7 +77,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ===== Countdown ===== */
+
 .deadline {
   text-align: center;
   padding: 40px 20px;
@@ -90,7 +90,7 @@ body {
   font-weight: 700;
 }
 
-/* ===== Events ===== */
+
 .events {
   text-align: center;
   padding: 80px 20px;
@@ -187,4 +187,116 @@ body {
 .actions {
   display: flex;
   justify-content: space-between;
+}
+
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 120px 20px;
+  background: radial-gradient(circle at 20% 30%, #041028, #000010);
+  box-shadow: inset 0 0 50px rgba(0, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+/* Watermark background */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('images/WhatsApp\ Image\ 2025-10-23\ at\ 12.00.03.jpeg') no-repeat center;
+  background-size: 700px; /* adjust size as needed */
+  opacity: 0.08; /* transparency */
+  z-index: 0;
+}
+
+/* Ensure text stays above watermark */
+.hero * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ===== Footer Section ===== */
+footer {
+  background: radial-gradient(circle at top, #030014, #000);
+  border-top: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: inset 0 -1px 15px rgba(0, 255, 255, 0.2);
+  color: #b2dfdb;
+  padding: 50px 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+/* Left: Organizer list */
+.organizer {
+  flex: 1;
+  min-width: 280px;
+}
+.organizer h1 {
+  font-size: 1.8rem;
+  color: #3efcb9;
+  text-shadow: 0 0 15px rgba(62, 252, 185, 0.6);
+  margin-bottom: 20px;
+}
+.organizer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 5px 10px;
+}
+.organizer-grid p {
+  font-size: 1rem;
+  color: #b2dfdb;
+  margin: 0;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.organizer-grid p:hover {
+  color: #3efcb9;
+  text-shadow: 0 0 15px #3efcb9, 0 0 25px #00ffff;
+  transform: scale(1.05);
+}
+
+/* Right: College details */
+.college-info {
+  flex: 1;
+  min-width: 280px;
+  text-align: right;
+}
+.college-info h2 {
+  font-size: 1.5rem;
+  color: #9d4edd;
+  text-shadow: 0 0 10px rgba(157, 78, 221, 0.6);
+  margin-bottom: 10px;
+}
+.college-info p {
+  margin: 5px 0;
+  color: #b2dfdb;
+  font-size: 1rem;
+}
+.college-info a {
+  color: #3efcb9;
+  text-decoration: none;
+}
+.college-info a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 8px #3efcb9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .college-info {
+    text-align: center;
+  }
 }
