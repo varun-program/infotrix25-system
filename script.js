@@ -82,7 +82,7 @@ memberInputs.forEach(id => {
 
 function updateAmount() {
   if (currentEvent === "E-Sports Arena") {
-    amountText.textContent = "₹200";
+    amountText.textContent = "₹100";
     return;
   }
 
@@ -95,7 +95,7 @@ function updateAmount() {
   let amount = 0;
   if (count === 1) amount = 200;
   else if (count === 2) amount = 400;
-  else if (count >= 3) amount = 500;
+  else if (count >= 3) amount = 600;
 
   amountText.textContent = `₹${amount}`;
 }
